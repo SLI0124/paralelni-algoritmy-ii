@@ -11,18 +11,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <CudaCompile Include="lab02.cu" />
-    <CudaCompile Include="lab03.cu" />
-    <CudaCompile Include="Runner.cu" />
-    <CudaCompile Include="src\lab01.cu">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-    </CudaCompile>
+    <ClInclude Include="src\lab01.h" />
+    <ClInclude Include="src\lab02.h" />
+    <ClInclude Include="src\lab03.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="lab01.h" />
-    <ClInclude Include="lab02.h" />
-    <ClInclude Include="lab03.h" />
+    <CudaCompile Include="src\lab01.cu" />
+    <CudaCompile Include="src\lab02.cu" />
+    <CudaCompile Include="src\lab03.cu" />
+    <CudaCompile Include="src\Runner.cu" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{8DBC398B-00A0-4734-A4F5-21CD8434600C}</ProjectGuid>
