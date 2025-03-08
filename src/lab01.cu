@@ -2,6 +2,9 @@
 
 namespace lab01 {
 
+    cudaError_t error = cudaSuccess;
+    cudaDeviceProp deviceProp = cudaDeviceProp();
+
     constexpr unsigned int THREADS_PER_BLOCK = 256;
     constexpr unsigned int MEMBLOCKS_PER_THREADBLOCK = 2;
 
