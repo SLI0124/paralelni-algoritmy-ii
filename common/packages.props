@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros">
+    <COMMON>.\common</COMMON>
+    <CUDA>$(COMMON)\CUDA_12\windows</CUDA>
+    <CUDA_INC>$(CUDA)\inc</CUDA_INC>
+    <FREEIMAGE>$(COMMON)\FreeImage\windows</FREEIMAGE>
+    <FREEIMAGE_INC>$(FREEIMAGE)\inc</FREEIMAGE_INC>
+    <FREEIMAGE_LIB>$(FREEIMAGE)\lib\$(PlatformName)</FREEIMAGE_LIB>
+    <FREEIMAGE_BIN>$(FREEIMAGE)\bin\$(PlatformName)</FREEIMAGE_BIN>
+    <GLEW>$(COMMON)\Glew\windows</GLEW>
+    <GLEW_INC>$(GLEW)\inc</GLEW_INC>
+    <GLEW_LIB>$(GLEW)\lib\$(PlatformName)</GLEW_LIB>
+    <GLEW_BIN>$(GLEW)\bin\$(PlatformName)</GLEW_BIN>
+    <FREEGLUT>$(COMMON)\FreeGlut\windows</FREEGLUT>
+    <FREEGLUT_INC>$(FREEGLUT)\inc</FREEGLUT_INC>
+    <FREEGLUT_LIB>$(FREEGLUT)\lib\$(PlatformName)</FREEGLUT_LIB>
+    <FREEGLUT_BIN>$(FREEGLUT)\bin\$(PlatformName)</FREEGLUT_BIN>
+    <PG>$(COMMON)\pg</PG>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemDefinitionGroup />
+  <ItemGroup>
+    <BuildMacro Include="COMMON">
+      <Value>$(COMMON)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="CUDA">
+      <Value>$(CUDA)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="CUDA_INC">
+      <Value>$(CUDA_INC)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="FREEIMAGE">
+      <Value>$(FREEIMAGE)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="FREEIMAGE_INC">
+      <Value>$(FREEIMAGE_INC)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="FREEIMAGE_LIB">
+      <Value>$(FREEIMAGE_LIB)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="FREEIMAGE_BIN">
+      <Value>$(FREEIMAGE_BIN)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="GLEW">
+      <Value>$(GLEW)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="GLEW_INC">
+      <Value>$(GLEW_INC)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="GLEW_LIB">
+      <Value>$(GLEW_LIB)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="GLEW_BIN">
+      <Value>$(GLEW_BIN)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="FREEGLUT">
+      <Value>$(FREEGLUT)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="FREEGLUT_INC">
+      <Value>$(FREEGLUT_INC)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="FREEGLUT_LIB">
+      <Value>$(FREEGLUT_LIB)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="FREEGLUT_BIN">
+      <Value>$(FREEGLUT_BIN)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="PG">
+      <Value>$(PG)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+  </ItemGroup>
+</Project>
