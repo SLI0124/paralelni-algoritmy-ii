@@ -4,9 +4,11 @@
     <CudaCompile Include="src\lab01.cu" />
     <CudaCompile Include="Runner.cu" />
     <CudaCompile Include="lab02.cu" />
+    <CudaCompile Include="lab03.cu" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lab01.h" />
     <ClInclude Include="lab02.h" />
+    <ClInclude Include="lab03.h" />
   </ItemGroup>
 </Project>
