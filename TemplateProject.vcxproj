@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <CudaCompile Include="lab02.cu" />
     <CudaCompile Include="Runner.cu" />
     <CudaCompile Include="src\lab01.cu">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -19,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lab01.h" />
+    <ClInclude Include="lab02.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{8DBC398B-00A0-4734-A4F5-21CD8434600C}</ProjectGuid>
