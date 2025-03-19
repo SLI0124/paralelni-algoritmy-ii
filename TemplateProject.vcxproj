@@ -11,12 +11,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\credit_task_1.h" />
     <ClInclude Include="src\lab01.h" />
     <ClInclude Include="src\lab02.h" />
     <ClInclude Include="src\lab03.h" />
     <ClInclude Include="src\lab04.h" />
   </ItemGroup>
   <ItemGroup>
+    <CudaCompile Include="src\credit_task1.cu" />
     <CudaCompile Include="src\lab01.cu" />
     <CudaCompile Include="src\lab02.cu" />
     <CudaCompile Include="src\lab03.cu" />
