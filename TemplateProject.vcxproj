@@ -16,6 +16,7 @@
     <ClInclude Include="src\lab02.h" />
     <ClInclude Include="src\lab03.h" />
     <ClInclude Include="src\lab04.h" />
+    <ClInclude Include="src\lab05.h" />
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="src\credit_task1.cu" />
@@ -23,6 +24,7 @@
     <CudaCompile Include="src\lab02.cu" />
     <CudaCompile Include="src\lab03.cu" />
     <CudaCompile Include="src\lab04.cu" />
+    <CudaCompile Include="src\lab05.cu" />
     <CudaCompile Include="src\Runner.cu" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

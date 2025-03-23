@@ -17,6 +17,9 @@
     <CudaCompile Include="src\credit_task1.cu">
       <Filter>runners</Filter>
     </CudaCompile>
+    <CudaCompile Include="src\lab05.cu">
+      <Filter>runners</Filter>
+    </CudaCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\lab01.h">
@@ -32,6 +35,9 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="src\credit_task_1.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lab05.h">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>
