@@ -23,6 +23,9 @@
     <CudaCompile Include="src\lab05.cu">
       <Filter>runners</Filter>
     </CudaCompile>
+    <CudaCompile Include="src\lab07.cu">
+      <Filter>runners</Filter>
+    </CudaCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\lab01.h">
@@ -44,6 +47,9 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="src\lab06.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lab07.h">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>
