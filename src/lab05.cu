@@ -78,7 +78,7 @@ namespace lab05 {
 
 		// STEP 1 - load raw image data, HOST->DEVICE, with/without pitch
 		ImageInfo<DT> src;
-		prepareData<false>("C:/Users/vojte/projects/school/paralelni-algoritmy-ii/res/terrain10x10.tif", src);
+		prepareData<false>("./res/terrain10x10.tif", src);
 
 		// STEP 2 - create texture from the raw data
 		//TextureInfo tiSrc = ... 

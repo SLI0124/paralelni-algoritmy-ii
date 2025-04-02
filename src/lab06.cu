@@ -128,7 +128,7 @@ namespace lab06 {
 
 		// STEP 1 - load raw image data, HOST->DEVICE, with/without pitch
 		ImageInfo<DT> src;
-		prepareData<false>("C:/Users/vojte/projects/school/paralelni-algoritmy-ii/res/terrain3Kx3K.tif", src);
+		prepareData<false>("./res/terrain3Kx3K.tif", src);
 
 		// STEP 2 - create texture from the raw data
 		TextureInfo ti = createTextureObjectFrom2DArray(src);
@@ -145,7 +145,7 @@ namespace lab06 {
 		createNormalmap<true> << <dimGrid, dimBlock >> > (ti.texObj, src.width, src.height, dstPitch / sizeof(uchar3), dst);
 
 		// STEP 5 - save the normal map
-		saveTexImage("C:/Users/vojte/projects/school/paralelni-algoritmy-ii/res/terrain3Kx3K_normalmap.bmp", src.width, src.height, dstPitch, dst);
+		saveTexImage("./res/terrain3Kx3K_normalmap.bmp", src.width, src.height, dstPitch, dst);
 
 		// SETP 6 - release unused data
 		if (ti.texObj)
