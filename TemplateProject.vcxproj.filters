@@ -14,9 +14,6 @@
     <CudaCompile Include="src\lab04.cu">
       <Filter>runners</Filter>
     </CudaCompile>
-    <CudaCompile Include="src\credit_task1.cu">
-      <Filter>runners</Filter>
-    </CudaCompile>
     <CudaCompile Include="src\lab06.cu">
       <Filter>runners</Filter>
     </CudaCompile>
@@ -24,6 +21,15 @@
       <Filter>runners</Filter>
     </CudaCompile>
     <CudaCompile Include="src\lab07.cu">
+      <Filter>runners</Filter>
+    </CudaCompile>
+    <CudaCompile Include="src\lab08.cu">
+      <Filter>runners</Filter>
+    </CudaCompile>
+    <CudaCompile Include="src\credit_task1.cu">
+      <Filter>runners</Filter>
+    </CudaCompile>
+    <CudaCompile Include="src\credit_task3.cu">
       <Filter>runners</Filter>
     </CudaCompile>
   </ItemGroup>
@@ -50,6 +56,12 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="src\lab07.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lab08.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\credit_task3.h">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

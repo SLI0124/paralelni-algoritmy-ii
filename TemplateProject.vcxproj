@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\credit_task3.h" />
     <ClInclude Include="src\credit_task_1.h" />
     <ClInclude Include="src\lab01.h" />
     <ClInclude Include="src\lab02.h" />
@@ -19,9 +20,11 @@
     <ClInclude Include="src\lab05.h" />
     <ClInclude Include="src\lab06.h" />
     <ClInclude Include="src\lab07.h" />
+    <ClInclude Include="src\lab08.h" />
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="src\credit_task1.cu" />
+    <CudaCompile Include="src\credit_task3.cu" />
     <CudaCompile Include="src\lab01.cu" />
     <CudaCompile Include="src\lab02.cu" />
     <CudaCompile Include="src\lab03.cu" />
@@ -29,6 +32,7 @@
     <CudaCompile Include="src\lab05.cu" />
     <CudaCompile Include="src\lab06.cu" />
     <CudaCompile Include="src\lab07.cu" />
+    <CudaCompile Include="src\lab08.cu" />
     <CudaCompile Include="src\Runner.cu" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
