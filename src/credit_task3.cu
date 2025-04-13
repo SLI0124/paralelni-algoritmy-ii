@@ -59,84 +59,74 @@ namespace credit_task3 {
 
 #pragma region CUDA Routines
 
-	__global__ void applyFilter(const cudaTextureObject_t srcTex, bool* reachedBorders, const unsigned int pboWidth, const unsigned int pboHeight, unsigned char* pbo)
-	{
+	__device__ bool isWithinCircle(int delta_x, int delta_y, float radius) {
+		return (delta_x * delta_x + delta_y * delta_y) <= (radius * radius);
+	}
+
+	__device__ bool isRed(const uchar4& texel) {
+		return texel.x > texel.y && texel.x > texel.z;
+	}
+
+	__device__ bool isGreen(const uchar4& texel) {
+		return texel.y > texel.x && texel.y > texel.z;
+	}
+
+	__device__ bool hasRedNeighbor(const cudaTextureObject_t srcTex, int x, int y, int pboWidth, int pboHeight, float radius) {
+		for (int delta_y = -ceil(radius); delta_y <= ceil(radius); delta_y++) {
+			for (int delta_x = -ceil(radius); delta_x <= ceil(radius); delta_x++) {
+				if (isWithinCircle(delta_x, delta_y, radius)) {
+					int new_x = x + delta_x;
+					int new_y = y + delta_y;
+
+					// Boundary check
+					if (new_x >= 0 && new_y >= 0 && new_x < pboWidth && new_y < pboHeight) {
+						const uchar4 neighborTexel = tex2D<DT>(srcTex, new_x + 0.5f, new_y + 0.5f);
+						if (isRed(neighborTexel)) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	__global__ void applyFilter(const cudaTextureObject_t srcTex, bool* reachedBorders, const unsigned int pboWidth, const unsigned int pboHeight, unsigned char* pbo) {
 		const uint32_t x = threadIdx.x + blockDim.x * blockIdx.x;
 		const uint32_t y = threadIdx.y + blockDim.y * blockIdx.y;
 
 		unsigned int elementOffset = (y * pboWidth + x) * 4;
 
 		// Ensure that we're within bounds
-		if (x < pboWidth && y < pboHeight)
-		{
-			const uchar4 texel = tex2D<DT>(srcTex, x + 0.5f, y + 0.5f); // use float coordinates
+		if (x >= pboWidth || y >= pboHeight) return;
 
-			int2 offsets[8] = {
-				make_int2(-1,  0), // Left
-				make_int2(1,  0), // Right
-				make_int2(0, -1), // Top
-				make_int2(0,  1),  // Bottom
+		const uchar4 texel = tex2D<DT>(srcTex, x + 0.5f, y + 0.5f); // Use float coordinates
+		const float radius = 3.0f; // the radius of the circle, the higer, the better results but higher time to compute
 
-				make_int2(-1,  -1), // Lower Left
-				make_int2(1,  -1), // Lower Right
-				make_int2(-1,  1), // Upper Left
-				make_int2(1,  1),  // Upper Right
-			};
-
-			if (texel.x == 0 && texel.y == 0 && texel.z == 0) // IS BLACK ?
-			{
-				for (int i = 0; i < 8; i++)
-				{
-					int nx = x + offsets[i].x;
-					int ny = y + offsets[i].y;
-
-					// Boundary check for neighbors
-					if (nx >= 0 && ny >= 0 && nx < pboWidth && ny < pboHeight)
-					{
-						const uchar4 texel_neighbour = tex2D<DT>(srcTex, nx, ny);
-
-						if (texel_neighbour.x > texel_neighbour.y && texel_neighbour.x > texel_neighbour.z) // IS RED ?
-						{
-							pbo[elementOffset++] = 255;
-							pbo[elementOffset++] = 0;
-							pbo[elementOffset++] = 0;
-							pbo[elementOffset++] = 255;
-							return;
-						}
-					}
-				}
-			}
-			else
-			{
-				if (texel.y > texel.x && texel.y > texel.x) // IS GREEN ?
-				{
-					for (int i = 0; i < 8; i++)
-					{
-						int nx = x + offsets[i].x;
-						int ny = y + offsets[i].y;
-
-						// Boundary check for neighbors
-						if (nx >= 0 && ny >= 0 && nx < pboWidth && ny < pboHeight)
-						{
-							const uchar4 texel_neighbour = tex2D<DT>(srcTex, nx, ny);
-
-							if (texel_neighbour.x > texel_neighbour.y && texel_neighbour.x > texel_neighbour.z) // IS RED ?
-							{
-								printf("GREEN at (%d, %d): (%d, %d, %d)\n", x, y, texel.x, texel.y, texel.z);
-								*reachedBorders = true;
-								break;
-							}
-						}
-					}
-				}
-
-				pbo[elementOffset++] = texel.x;
-				pbo[elementOffset++] = texel.y;
-				pbo[elementOffset++] = texel.z;
-				pbo[elementOffset++] = texel.w;
+		if (texel.x == 0 && texel.y == 0 && texel.z == 0) { // is it BLACK?
+			if (hasRedNeighbor(srcTex, x, y, pboWidth, pboHeight, radius)) {
+				pbo[elementOffset++] = 255; // Red
+				pbo[elementOffset++] = 0;
+				pbo[elementOffset++] = 0;
+				return;
 			}
 		}
+		else {
+			if (isGreen(texel)) { // is it GREEN?
+				if (hasRedNeighbor(srcTex, x, y, pboWidth, pboHeight, radius)) {
+					printf("GREEN at (%d, %d): (%d, %d, %d)\n", x, y, texel.x, texel.y, texel.z);
+					*reachedBorders = true;
+				}
+			}
+
+			// Copy original texel to PBO
+			pbo[elementOffset++] = texel.x;
+			pbo[elementOffset++] = texel.y;
+			pbo[elementOffset++] = texel.z;
+		}
 	}
+
+
 
 	void cudaWorker()
 	{
@@ -174,8 +164,6 @@ namespace credit_task3 {
 		glBindBuffer(GL_PIXEL_UNPACK_BUFFER, gl.pboID);
 		glBindTexture(GL_TEXTURE_2D, gl.textureID);
 		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, gl.imageWidth, gl.imageHeight, GL_RGBA, GL_UNSIGNED_BYTE, NULL);   //Source parameter is NULL, Data is coming from a PBO, not host memory
-
-		//printf(".");
 	}
 
 	void initCUDAObjects()
