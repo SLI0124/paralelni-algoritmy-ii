@@ -5,9 +5,6 @@ namespace credit_task1 {
 
 	constexpr unsigned int THREADS_PER_BLOCK_DIM = 32;
 
-	cudaError_t error = cudaSuccess;
-	cudaDeviceProp deviceProp = cudaDeviceProp();
-
 	// Function to generate a matrix with random values
 	__host__ int generate_matrix(float* data, const unsigned int length, float range_min, float range_max) {
 		// Fixed seed for reproducibility
@@ -176,8 +173,6 @@ namespace credit_task1 {
 
 	// Main function to run the program
 	void run() {
-		initializeCUDA(deviceProp);
-
 		cudaEvent_t startEvent, stopEvent;
 		float elapsedTime;
 		cudaEventCreate(&startEvent);

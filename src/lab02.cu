@@ -3,9 +3,6 @@
 
 namespace lab02
 {
-	cudaError_t error = cudaSuccess;
-	cudaDeviceProp deviceProp = cudaDeviceProp();
-
 	constexpr unsigned int THREADS_PER_BLOCK_DIM = 8;				//=64 threads in block
 
 	__global__ void fillData(const unsigned int pitch, const unsigned int rows, const unsigned int cols, float* data)

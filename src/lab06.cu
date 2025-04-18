@@ -13,9 +13,6 @@ namespace lab06 {
 #define TPB_1D 8						// ThreadsPerBlock in one dimension
 #define TPB_2D TPB_1D*TPB_1D			// ThreadsPerBlock = TPB_1D*TPB_1D (2D block)
 
-	cudaError_t error = cudaSuccess;
-	cudaDeviceProp deviceProp = cudaDeviceProp();
-
 	using DT = float;
 
 	__host__ TextureInfo createTextureObjectFrom2DArray(const ImageInfo<DT>& ii)
@@ -123,7 +120,6 @@ namespace lab06 {
 
 	void run()
 	{
-		initializeCUDA(deviceProp);
 		FreeImage_Initialise();
 
 		// STEP 1 - load raw image data, HOST->DEVICE, with/without pitch

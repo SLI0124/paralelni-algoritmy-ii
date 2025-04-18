@@ -12,9 +12,6 @@ namespace lab05 {
 #define TPB_1D 8						// ThreadsPerBlock in one dimension
 #define TPB_2D TPB_1D*TPB_1D			// ThreadsPerBlock = TPB_1D*TPB_1D (2D block)
 
-	cudaError_t error = cudaSuccess;
-	cudaDeviceProp deviceProp = cudaDeviceProp();
-
 	using namespace gpubenchmark;
 	using DT = float;
 
@@ -73,7 +70,6 @@ namespace lab05 {
 
 	void run()
 	{
-		initializeCUDA(deviceProp);
 		FreeImage_Initialise();
 
 		// STEP 1 - load raw image data, HOST->DEVICE, with/without pitch

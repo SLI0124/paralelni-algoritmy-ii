@@ -5,8 +5,6 @@
 
 namespace lab04
 {
-	cudaError_t error = cudaSuccess;
-	cudaDeviceProp deviceProp = cudaDeviceProp();
 
 #pragma region CustomStructure
 	typedef struct __align__(8) CustomStructure
@@ -92,8 +90,6 @@ namespace lab04
 
 	void run()
 	{
-		initializeCUDA(deviceProp);
-
 		// pattern
 		const unsigned int refereceLength = 1 << 23;
 		const unsigned int patterLength = 16;

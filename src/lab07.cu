@@ -15,9 +15,6 @@ namespace lab07 {
 #define TPB_1D 8									// ThreadsPerBlock in one dimension
 #define TPB_2D TPB_1D*TPB_1D						// ThreadsPerBlock = TPB_1D*TPB_1D (2D block)
 
-	cudaError_t error = cudaSuccess;
-	cudaDeviceProp deviceProp = cudaDeviceProp();
-
 	using DT = uchar4;
 
 	//OpenGL
@@ -295,7 +292,6 @@ namespace lab07 {
 
 	int run(int argc, char* argv[])
 	{
-		initializeCUDA(deviceProp);
 		FreeImage_Initialise();
 
 		initGL(argc, argv);
