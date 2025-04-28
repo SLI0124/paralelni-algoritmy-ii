@@ -98,7 +98,7 @@ namespace lab05 {
 		if (dst) cudaFree(dst);
 
 		cudaDeviceSynchronize();
-		error = cudaGetLastError();
+		//error = cudaGetLastError();
 
 		FreeImage_DeInitialise();
 	}

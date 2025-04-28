@@ -157,7 +157,7 @@ namespace lab06 {
 			checkCudaErrors(cudaFree(dst));
 
 		cudaDeviceSynchronize();
-		error = cudaGetLastError();
+		//error = cudaGetLastError();
 
 		FreeImage_DeInitialise();
 	}
