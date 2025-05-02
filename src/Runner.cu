@@ -9,6 +9,7 @@
 #include "lab07.h"
 #include "lab08.h"
 #include "lab09.h"
+#include "lab10.h"
 
 #include "credit_task_1.h"
 #include "credit_task3.h"
@@ -27,7 +28,8 @@ int main(int argc, char** argv)
 	//lab06::run();
 	//lab07::run(argc, argv);
 	//lab08::run();
-	lab09::run();
+	//lab09::run();
+	lab10::run();
 
 	//credit_task1::run();
 	//credit_task3::run(argc, argv);
