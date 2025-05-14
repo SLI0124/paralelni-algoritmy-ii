@@ -181,6 +181,20 @@ namespace credit_task4 {
 		printf("Pattern image has been loaded\n");
 	}
 
+	__device__ float rotated_tex2D(const cudaTextureObject_t pattern, int x, int y, int width, int height, int rotation) {
+		switch (rotation) {
+		case 0: // No rotation
+			return tex2D<float>(pattern, x, y);
+		case 1: // 90 degrees
+			return tex2D<float>(pattern, height - 1 - y, x);
+		case 2: // 180 degrees
+			return tex2D<float>(pattern, width - 1 - x, height - 1 - y);
+		case 3: // 270 degrees
+			return tex2D<float>(pattern, y, width - 1 - x);
+		default:
+			return 0.0f; // Should not happen
+		}
+	}
 
 	__global__ void find_pattern(
 		const cudaTextureObject_t reference,
@@ -191,7 +205,8 @@ namespace credit_task4 {
 		const int imageHeight,
 		uchar3* dst,
 		int* matched_col,
-		int* matched_row
+		int* matched_row,
+		int* matched_rotation
 	)
 	{
 		unsigned int base_x_idx = blockIdx.x * blockDim.x + threadIdx.x;
@@ -204,29 +219,31 @@ namespace credit_task4 {
 		unsigned int offset_y = base_y_idx;
 
 		while (true) {
-			bool diff = false;
+			for (int rotation = 0; rotation < 4; rotation++) {
+				bool diff = false;
 
-			for (int y = 0; y < patternHeight; y++) {
-				for (int x = 0; x < patternWidth; x++) {
-					// Use tex2D<float> to fetch data from the texture objects
-					float ref_value = tex2D<float>(reference, offset_x + x, offset_y + y);
-					float pat_value = tex2D<float>(pattern, x, y);
+				for (int y = 0; y < patternHeight; y++) {
+					for (int x = 0; x < patternWidth; x++) {
+						float ref_value = tex2D<float>(reference, offset_x + x, offset_y + y);
+						float pat_value = rotated_tex2D(pattern, x, y, patternWidth, patternHeight, rotation);
 
-					if (ref_value != pat_value) {
-						diff = true;
+						if (ref_value != pat_value) {
+							diff = true;
+							break;
+						}
+					}
+
+					if (diff) {
 						break;
 					}
 				}
 
-				if (diff) {
-					break;
+				if (!diff) {
+					*matched_row = offset_x;
+					*matched_col = offset_y;
+					*matched_rotation = rotation;
+					return;
 				}
-			}
-
-			if (!diff) {
-				*matched_row = offset_x;
-				*matched_col = offset_y;
-				break;
 			}
 
 			offset_x += skip_x;
@@ -266,14 +283,15 @@ namespace credit_task4 {
 
 		int* d_final_row_1 = nullptr;
 		int* d_final_col_1 = nullptr;
+		int* d_final_rotation_1 = nullptr;
 
 		checkCudaErrors(cudaMalloc((void**)&d_final_row_1, sizeof(int)));
 		checkCudaErrors(cudaMalloc((void**)&d_final_col_1, sizeof(int)));
+		checkCudaErrors(cudaMalloc((void**)&d_final_rotation_1, sizeof(int)));
 
 		dim3 dimBlock{ TPB_1D, TPB_1D, 1 };
 		dim3 dimGrid{ (src.width + TPB_1D - 1) / TPB_1D, (src.height + TPB_1D - 1) / TPB_1D, 1 };
 
-		// Updated kernel launch to pass cudaTextureObject_t arguments
 		find_pattern << <dimGrid, dimBlock >> > (
 			ti_src.texObj,
 			ti_pattern_1.texObj,
@@ -283,12 +301,14 @@ namespace credit_task4 {
 			src.height,
 			dst_src,
 			d_final_col_1,
-			d_final_row_1);
+			d_final_row_1,
+			d_final_rotation_1);
 
 		checkDeviceMatrix<int>((int*)d_final_row_1, sizeof(int), 1, 1, "%d ", "Row");
 		checkDeviceMatrix<int>((int*)d_final_col_1, sizeof(int), 1, 1, "%d ", "Col");
+		checkDeviceMatrix<int>((int*)d_final_rotation_1, sizeof(int), 1, 1, "%d ", "Rotation");
 
-		//load pattern 2
+		// load pattern 2
 		ImageInfo<DT> pattern_2;
 		prepareData<false>("./res/CreditTaskD_pattern1.png", pattern_2);
 		TextureInfo ti_pattern_2 = createTextureObjectFrom2DArray(pattern_2);
@@ -298,15 +318,13 @@ namespace credit_task4 {
 
 		int* d_final_row_2 = nullptr;
 		int* d_final_col_2 = nullptr;
+		int* d_final_rotation_2 = nullptr;
 
 		checkCudaErrors(cudaMalloc((void**)&d_final_row_2, sizeof(int)));
 		checkCudaErrors(cudaMalloc((void**)&d_final_col_2, sizeof(int)));
+		checkCudaErrors(cudaMalloc((void**)&d_final_rotation_2, sizeof(int)));
 
-		dim3 dimBlock2{ TPB_1D, TPB_1D, 1 };
-		dim3 dimGrid2{ (src.width + TPB_1D - 1) / TPB_1D, (src.height + TPB_1D - 1) / TPB_1D, 1 };
-
-		// Updated kernel launch to pass cudaTextureObject_t arguments
-		find_pattern << <dimGrid2, dimBlock2 >> > (
+		find_pattern << <dimGrid, dimBlock >> > (
 			ti_src.texObj,
 			ti_pattern_2.texObj,
 			pattern_2.width,
@@ -315,10 +333,12 @@ namespace credit_task4 {
 			src.height,
 			dst_src,
 			d_final_col_2,
-			d_final_row_2);
+			d_final_row_2,
+			d_final_rotation_2);
 
 		checkDeviceMatrix<int>((int*)d_final_row_2, sizeof(int), 1, 1, "%d ", "Row");
 		checkDeviceMatrix<int>((int*)d_final_col_2, sizeof(int), 1, 1, "%d ", "Col");
+		checkDeviceMatrix<int>((int*)d_final_rotation_2, sizeof(int), 1, 1, "%d ", "Rotation");
 
 		FreeImage_DeInitialise();
 	}
