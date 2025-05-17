@@ -24,6 +24,7 @@
     <ClInclude Include="src\lab08.h" />
     <ClInclude Include="src\lab09.h" />
     <ClInclude Include="src\lab10.h" />
+    <ClInclude Include="src\project.h" />
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="src\credit_task1.cu" />
@@ -39,6 +40,7 @@
     <CudaCompile Include="src\lab08.cu" />
     <CudaCompile Include="src\lab09.cu" />
     <CudaCompile Include="src\lab10.cu" />
+    <CudaCompile Include="src\project.cu" />
     <CudaCompile Include="src\Runner.cu" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

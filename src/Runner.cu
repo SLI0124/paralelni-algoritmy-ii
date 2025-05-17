@@ -15,6 +15,8 @@
 #include "credit_task3.h"
 #include "credit_task4.h"
 
+#include "project.h"
+
 cudaError_t error = cudaSuccess;
 cudaDeviceProp deviceProp = cudaDeviceProp();
 
@@ -34,7 +36,9 @@ int main(int argc, char** argv)
 
 	//credit_task1::run();
 	//credit_task3::run(argc, argv);
-	credit_task4::run();
+	//credit_task4::run();
+	project::run();
+
 
 	return 0;
 }
